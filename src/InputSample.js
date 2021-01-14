@@ -5,6 +5,7 @@ function InputSample() {
     name: "",
     nickname: ""
   });
+  
   const nameInput = useRef();
 
   const { name, nickname } = inputs;
