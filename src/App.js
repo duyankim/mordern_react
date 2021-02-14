@@ -1,30 +1,30 @@
-import React from "react";
-import styled, { ThemeProvider } from "styled-components";
-import Button from "./components/Button";
+import React, { useState } from "react";
 
-const AppBlock = styled.div`
-  width: 512px;
-  margin: 0 auto;
-  margin-top: 4rem;
-  border: 1px solid black;
-  padding: 1rem;
-`;
+const useInput = (initialValue, validator) => {
+  const [value, setValue] = useState(initialValue);
+  const onChange = (event) => {
+    const {
+      target: { value }
+    } = event;
+    let willUpdate = true;
+    if (typeof validator === "function") {
+      willUpdate = validator(value);
+    }
+    if (willUpdate) {
+      setValue(value);
+    }
+  };
+  return { value, onChange };
+};
 
 function App() {
+  const maxLen = (value) => value.length < 10;
+  const name = useInput("Mr.", maxLen);
   return (
-    <ThemeProvider
-      theme={{
-        palette: {
-          blue: "#228be6",
-          gray: "#495057",
-          pink: "#f06595"
-        }
-      }}
-    >
-      <AppBlock>
-        <Button>Button</Button>
-      </AppBlock>
-    </ThemeProvider>
+    <div>
+      <h1>hello</h1>
+      <input placeholder="name" {...name} />
+    </div>
   );
 }
 
