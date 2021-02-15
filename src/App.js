@@ -1,30 +1,18 @@
 import React from "react";
-
-const useNotification = (title, options) => {
-  if (!("Notification" in window)) {
-    return;
-  }
-  const fireNotif = () => {
-    if (Notification.permission !== "granted") {
-      Notification.requestPermission().then((permission) => {
-        if (permission === "granted") {
-          new Notification(title, options);
-        } else {
-          return;
-        }
-      });
-    } else {
-      new Notification(title, options);
-    }
-  };
-  return fireNotif;
-};
+import useAxios from "./hooks/useAxios";
 
 function App() {
-  const triggerNotif = useNotification("may I help you?", "description");
+  const { loading, data, error, refetch } = useAxios({
+    url: `${url}`
+  });
+  console.log(
+    `loading: ${loading}\n data:${JSON.stringify(data)} \n error: ${error}`
+  );
   return (
     <div className="App" style={{ height: "10000vh" }}>
-      <button onClick={triggerNotif}>hello</button>
+      <h1>{data && data.status}</h1>
+      <h2>{loading && "Loading"}</h2>
+      <button onClick={refetch}>refetch</button>
     </div>
   );
 }
