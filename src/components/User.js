@@ -1,12 +1,5 @@
-import axios from "axios";
 import useAsync from "./useAsync";
-
-async function getUser(id) {
-  const response = await axios.get(
-    `https://jsonplaceholder.typicode.com/users/${id}`
-  );
-  return response.data;
-}
+import getUser from "../api/getUser";
 
 function User({ id }) {
   const [state] = useAsync(() => getUser(id), [id]);
